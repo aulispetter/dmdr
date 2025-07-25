@@ -15,7 +15,7 @@ html {
     100% {
         opacity: 0.04;
         /* almost off */
-        filter: brightness(0.5);
+        filter: brightness(0.6);
         /* dim */
     }
 
@@ -23,7 +23,7 @@ html {
     75% {
         opacity: 0.12;
         /* bright flash */
-        filter: brightness(0.6);
+        filter: brightness(0.7);
         /* over‐bright moment */
     }
 }
@@ -40,7 +40,7 @@ html {
     z-index: 1;
     display: none;
     pointer-events: none;
-    animation: bulbFlash 6s ease-in-out infinite;
+    animation: bulbFlash 9s ease-in-out infinite;
     transform-origin: center center;
     will-change: opacity, filter;
 }
