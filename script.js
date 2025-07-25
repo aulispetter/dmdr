@@ -79,11 +79,12 @@ async function onPlayerReady() {
   initialBg.style.display = 'block';
   overlay.style.display = 'flex';
 
-  overlay.addEventListener('click', async () => {
+  overlay.addEventListener('click', () => {
     player.setVolume(100);
     player.playVideo();
     overlay.style.display = 'none';
-    const animationTimeout = 5710;
+    const animationTimeout = 5680;
+    document.documentElement.requestFullscreen?.();
 
     setTimeout(() => {
       bgEl.style.display = 'block';
@@ -131,9 +132,7 @@ async function onPlayerReady() {
 
     }, animationTimeout);
 
-    if (document.documentElement.requestFullscreen) {
-      await document.documentElement.requestFullscreen();
-    }
+
   }, { once: true });
 }
 
