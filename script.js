@@ -80,7 +80,7 @@ async function onPlayerReady() {
   overlay.style.display = 'flex';
 
   overlay.addEventListener('click', () => {
-    player.setVolume(100);
+    // player.setVolume(100);
     player.playVideo();
     overlay.style.display = 'none';
     const animationTimeout = 5680;
