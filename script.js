@@ -83,14 +83,11 @@ async function onPlayerReady() {
         if (document.documentElement.requestFullscreen) {
             await document.documentElement.requestFullscreen();
         }
-        overlay.style.display = 'none';
-        const videoTimeout = 1500;
-        const animationTimeout = 5720 + videoTimeout;
+        player.setVolume(100);
+        player.playVideo();
 
-        setTimeout(() => {
-            player.setVolume(100);
-            player.playVideo();
-        }, videoTimeout);
+        overlay.style.display = 'none';
+        const animationTimeout = 5720;
 
         setTimeout(() => {
             bgEl.style.display = 'block';
