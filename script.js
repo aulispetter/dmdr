@@ -75,7 +75,7 @@ function shuffleArray(array) {
   return array;
 }
 
-async function onPlayerReady() {
+function onPlayerReady() {
   initialBg.style.display = 'block';
   overlay.style.display = 'flex';
 
