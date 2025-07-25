@@ -85,7 +85,7 @@ async function onPlayerReady() {
         }
         overlay.style.display = 'none';
         const videoTimeout = 1500;
-        const animationTimeout = 5750 + videoTimeout;
+        const animationTimeout = 5720 + videoTimeout;
 
         setTimeout(() => {
             player.setVolume(100);
