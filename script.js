@@ -83,7 +83,7 @@ function onPlayerReady() {
     // player.setVolume(100);
     player.playVideo();
     overlay.style.display = 'none';
-    const animationTimeout = 5680;
+    const animationTimeout = 5640;
     document.documentElement.requestFullscreen?.();
 
     setTimeout(() => {
