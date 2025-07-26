@@ -74,6 +74,7 @@ function shuffleArray(array) {
   return array;
 }
 
+
 function onPlayerReady() {
   initialBg.style.display = 'block';
   overlay.style.display = 'flex';
@@ -83,12 +84,6 @@ function onPlayerReady() {
     overlay.style.display = 'none';
     const animationTimeout = 5440;
     document.documentElement.requestFullscreen?.();
-
-    const iframe = document.querySelector('#ytPlayer iframe');
-    if (iframe) {
-      iframe.setAttribute('allow', 'autoplay; encrypted-media');
-      alert('yassu');
-    }
 
     setTimeout(() => {
       bgEl.style.display = 'block';
