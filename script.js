@@ -80,7 +80,6 @@ function onPlayerReady() {
   overlay.style.display = 'flex';
 
   overlay.addEventListener('click', () => {
-    // player.setVolume(100);
     player.playVideo();
     overlay.style.display = 'none';
     const animationTimeout = 5440;
@@ -137,6 +136,13 @@ function onPlayerReady() {
 }
 
 function onPlayerStateChange(e) {
+  if (e.data === YT.PlayerState.PLAYING) {
+    if (player.isMuted()) {
+      player.unMute();
+    } else {
+      console.log('Not muted — no need to unmute');
+    }
+  }
   if (e.data === YT.PlayerState.ENDED) {
     bgEl.style.display = 'none';
     initialBg.style.display = 'block';
