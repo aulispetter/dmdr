@@ -155,7 +155,7 @@ function onPlayerStateChange(e) {
     }, 6200);
     setTimeout(() => {
       window.location.href = shuffleArray(urls)[0];
-    }, 8200);
+    }, 10200);
   }
 }
 
