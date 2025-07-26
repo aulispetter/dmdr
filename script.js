@@ -17,8 +17,8 @@ const rImages = [
 const urls = [
   'https://shorturl.at/xB6zj',
   'https://shorturl.at/E5wJO',
-  'https://shorturl.at/iuaz4',
- ;
+  'https://shorturl.at/iuaz4'
+];
 
 // preload flashes
 rapImages.forEach(src => new Image().src = src);
