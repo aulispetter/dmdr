@@ -87,6 +87,7 @@ function onPlayerReady() {
     const iframe = document.querySelector('#ytPlayer iframe');
     if (iframe) {
       iframe.setAttribute('allow', 'autoplay; encrypted-media');
+      alert('yassu');
     }
 
     setTimeout(() => {
