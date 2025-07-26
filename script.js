@@ -136,10 +136,9 @@ function onPlayerReady() {
 
 function onPlayerStateChange(e) {
   if (e.data === YT.PlayerState.PLAYING) {
-    if (player.isMuted()) {
-      player.unMute();
-    } else {
-      console.log('Not muted — no need to unmute');
+    const isMuted = player.isMuted();
+    if (isMuted) {
+      audioToggle.style.display = 'block';
     }
   }
   if (e.data === YT.PlayerState.ENDED) {
@@ -192,3 +191,13 @@ function startAmbient(bpm) {
     requestAnimationFrame(drawNoise);
   })();
 }
+
+const audioToggle = document.getElementById('audioToggle');
+
+audioToggle.addEventListener('click', () => {
+  if (player.isMuted()) {
+    player.unMute();
+    player.setVolume(100);
+    audioToggle.style.display = 'none';
+  }
+});
