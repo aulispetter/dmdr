@@ -57,7 +57,7 @@ function onYouTubeIframeAPIReady() {
     playerVars: {
       autoplay: 0, controls: 0, rel: 0,
       modestbranding: 1, iv_load_policy: 3,
-      disablekb: 1, playsinline: 1
+      disablekb: 1, playsinline: 1, enablejsapi: 1
     },
     events: {
       onReady: onPlayerReady,
@@ -83,6 +83,11 @@ function onPlayerReady() {
     overlay.style.display = 'none';
     const animationTimeout = 5440;
     document.documentElement.requestFullscreen?.();
+
+    const iframe = document.querySelector('#ytPlayer iframe');
+    if (iframe) {
+      iframe.setAttribute('allow', 'autoplay; encrypted-media');
+    }
 
     setTimeout(() => {
       bgEl.style.display = 'block';
@@ -145,7 +150,7 @@ function onPlayerStateChange(e) {
     bgEl.style.display = 'none';
     initialBg.style.display = 'block';
     setTimeout(() => {
-      initialBg.style.brightness = '0.06';
+      initialBg.style.filter = 'brightness(6%)';
       initialBg.src = 'r.png';
     }, 6200);
     setTimeout(() => {
