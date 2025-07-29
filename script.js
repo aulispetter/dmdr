@@ -111,7 +111,7 @@ function onPlayerReady() {
       scheduleFlash(140000, 1848, 1848, cImages);
 
       // 4th slot
-      scheduleFlash(156900, 21252, 924, shuffleArray(rapImages));
+      scheduleFlash(157200, 21252, 924, shuffleArray(rapImages));
       scheduleFlash(190000, 1848, 1848, cImages);
       scheduleFlash(200000, 17556, 924, carousel);
 
