@@ -1,6 +1,5 @@
 let player, overlay, initialBg, bgEl;
 
-// list of flash images to cycle through
 const rapImages = [
   '1.png', '2.png', '3.png', '4.png',
   '5.png', '6.png', '7.png', '8.png'
@@ -20,7 +19,6 @@ const urls = [
   'https://shorturl.at/iuaz4'
 ];
 
-// preload flashes
 rapImages.forEach(src => new Image().src = src);
 cImages.forEach(src => new Image().src = src);
 rImages.forEach(src => new Image().src = src);
@@ -107,6 +105,7 @@ function onPlayerReady() {
 
       // 3rd slot
       scheduleFlash(94500, 11088, 924, shuffleArray(rapImages));
+      scheduleFlash(110000, 1848, 1848, cImages);
       scheduleFlash(120000, 1848, 1848, cImages);
       scheduleFlash(130000, 924, 924, cImages);
       scheduleFlash(140000, 1848, 1848, cImages);
