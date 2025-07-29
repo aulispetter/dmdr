@@ -80,7 +80,7 @@ function onPlayerReady() {
   overlay.addEventListener('click', () => {
     player.playVideo();
     overlay.style.display = 'none';
-    const animationTimeout = 5640;
+    const animationTimeout = 5440;
     document.documentElement.requestFullscreen?.();
 
     setTimeout(() => {
@@ -117,7 +117,7 @@ function onPlayerReady() {
 
       // 5th slot
       scheduleFlash(218800, 12012, 924, shuffleArray(rapImages));
-      scheduleFlash(232000, 33000, 924, carousel);
+      scheduleFlash(230812, 33000, 924, carousel);
       scheduleFlash(265600, 4620, 4620, rImages);
       scheduleFlash(280000, 924, 924, cImages);
       scheduleFlash(283000, 924, 924, cImages);
