@@ -14,21 +14,16 @@ html {
     0%,
     100% {
         opacity: 0.04;
-        /* almost off */
         filter: brightness(0.6);
-        /* dim */
     }
 
     50%,
     75% {
         opacity: 0.12;
-        /* bright flash */
         filter: brightness(0.7);
-        /* over‐bright moment */
     }
 }
 
-/* 1) Initial faint background (pre-play) */
 #initialBg {
     position: absolute;
     top: 0;
@@ -45,7 +40,6 @@ html {
     will-change: opacity, filter;
 }
 
-/* 2) Main background (post-play ambient) */
 #bgImage {
     position: absolute;
     top: 0;
@@ -59,7 +53,6 @@ html {
     pointer-events: none;
 }
 
-/* Foggy text animation */
 @keyframes textFog {
     0% {
         filter: blur(5px);
@@ -80,7 +73,6 @@ html {
     }
 }
 
-/* 3) Play overlay with foggy text */
 #playOverlay {
     display: none;
     position: absolute;
@@ -100,7 +92,6 @@ html {
     animation: textFog 6s ease-in-out infinite;
 }
 
-/* 4) Fullscreen ambient canvas */
 #ambientCanvas {
     position: fixed;
     top: 0;
@@ -121,7 +112,6 @@ html {
     pointer-events: none;
 }
 
-/* Depth pulse + rotate animation */
 @keyframes depthPulse {
 
     0%,
@@ -142,7 +132,6 @@ html {
     }
 }
 
-/* apply to post-play bg and the ambient canvas */
 .pulse {
     animation: depthPulse 33.3s ease-in-out infinite;
     transform-origin: center center;
