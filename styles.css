@@ -112,11 +112,13 @@ html {
     filter: blur(0px);
 }
 
-/* 5) Hidden YouTube iframe */
 #ytPlayer {
-    width: 0;
-    height: 0;
-    overflow: hidden;
+    width: 1px;
+    height: 1px;
+    opacity: 0.01;
+    position: absolute;
+    z-index: -1;
+    pointer-events: none;
 }
 
 /* Depth pulse + rotate animation */

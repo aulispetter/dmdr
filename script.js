@@ -82,7 +82,7 @@ function onPlayerReady() {
   overlay.addEventListener('click', () => {
     player.playVideo();
     overlay.style.display = 'none';
-    const animationTimeout = 5440;
+    const animationTimeout = 5640;
     document.documentElement.requestFullscreen?.();
 
     setTimeout(() => {
