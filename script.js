@@ -87,7 +87,9 @@ function showPlay(morningHour, morningMinutes, nightHour, nightMinutes) {
 }
 
 setInterval(async () => {
-  showPlay(6, 59, 19, 0);
+  if (player.getPlayerState() < 0) {
+    showPlay(6, 59, 19, 0);
+  }
 }, 1 * 60 * 1000);
 
 
