@@ -72,10 +72,28 @@ function shuffleArray(array) {
   return array;
 }
 
+function showPlay(morningHour, morningMinutes, nightHour, nightMinutes) {
+  const now = new Date();
+  const localHours = now.getHours();
+  const localMinutes = now.getMinutes();
+
+  const isNight =
+    (localHours >= nightHour && localMinutes >= nightMinutes) ||
+    (localHours < morningHour && localMinutes <= morningMinutes);
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const show = isNight || urlParams.has('play');
+  overlay.style.display = show ? 'flex' : 'none';
+}
+
+setInterval(async () => {
+  showPlay(6, 59, 19, 0);
+}, 1 * 60 * 1000);
+
 
 function onPlayerReady() {
   initialBg.style.display = 'block';
-  overlay.style.display = 'flex';
+  showPlay(6, 59, 19, 0);
 
   overlay.addEventListener('click', () => {
     player.playVideo();
