@@ -84,7 +84,6 @@ html {
     color: #eee;
     font-family: 'MedievalSharp', cursive;
     font-size: 6.5rem;
-    display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
