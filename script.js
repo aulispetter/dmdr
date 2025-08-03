@@ -1,4 +1,6 @@
-let player, overlay, initialBg, bgEl;
+let pl, iBg, bgEl;
+let startRequestedAt;
+let bufferingDelay = 0;
 
 const rapImages = [
   '1.png', '2.png', '3.png', '4.png',
@@ -13,17 +15,16 @@ const rImages = [
   'r.png',
 ];
 
-const urls = [
-  'https://shorturl.at/xB6zj',
-  'https://shorturl.at/E5wJO',
-  'https://shorturl.at/iuaz4'
+const us = [
+  'https://shorturl.at/Z3ELJ',
+  'https://shorturl.at/E5wJO'
 ];
 
 rapImages.forEach(src => new Image().src = src);
 cImages.forEach(src => new Image().src = src);
 rImages.forEach(src => new Image().src = src);
 
-function scheduleFlash(startMs, durationMs, rotateIntervalMs, images = rapImages) {
+function sF(startMs, durationMs, rotateIntervalMs, images = rapImages) {
   const originalSrc = bgEl.src;
   let intervalHandle;
   setTimeout(() => {
@@ -43,28 +44,27 @@ function scheduleFlash(startMs, durationMs, rotateIntervalMs, images = rapImages
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  overlay = document.getElementById('playOverlay');
-  initialBg = document.getElementById('initialBg');
+  iBg = document.getElementById('initialBg');
   bgEl = document.getElementById('bgImage');
   bgEl.classList.add('pulse');
 });
 
 function onYouTubeIframeAPIReady() {
-  player = new YT.Player('ytPlayer', {
+  pl = new YT.Player('ytPlayer', {
     videoId: 'e0L5U-BWof0',
     playerVars: {
-      autoplay: 0, controls: 0, rel: 0,
+      controls: 0, rel: 0,
       modestbranding: 1, iv_load_policy: 3,
       disablekb: 1, playsinline: 1, enablejsapi: 1
     },
     events: {
-      onReady: onPlayerReady,
-      onStateChange: onPlayerStateChange
+      onReady: oPr,
+      onStateChange: oPSC
     }
   });
 }
 
-function shuffleArray(array) {
+function sA(array) {
   for (let i = array.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     [array[i], array[j]] = [array[j], array[i]];
@@ -72,7 +72,7 @@ function shuffleArray(array) {
   return array;
 }
 
-function showPlay(morningHour, morningMinutes, nightHour, nightMinutes) {
+function sP(morningHour, morningMinutes, nightHour, nightMinutes) {
   const now = new Date();
   const localHours = now.getHours();
   const localMinutes = now.getMinutes();
@@ -83,98 +83,90 @@ function showPlay(morningHour, morningMinutes, nightHour, nightMinutes) {
 
   const urlParams = new URLSearchParams(window.location.search);
   const show = isNight || urlParams.has('play');
-  overlay.style.display = show ? 'flex' : 'none';
+  return show;
 }
 
-setInterval(async () => {
-  if (player.getPlayerState() < 0) {
-    showPlay(6, 59, 19, 0);
-  }
-}, 1 * 60 * 1000);
 
+function oPr() {
+  iBg.style.display = 'block';
+  // sP(6, 59, 19, 0);
+  sAmb(16.25);
 
-function onPlayerReady() {
-  initialBg.style.display = 'block';
-  showPlay(6, 59, 19, 0);
-
-  overlay.addEventListener('click', () => {
-    player.playVideo();
-    overlay.style.display = 'none';
-    const animationTimeout = 5440;
+  document.body.addEventListener('click', () => {
+    startRequestedAt = performance.now();
+    pl.playVideo();
+    pl.unMute();
+    pl.setVolume(100);
     document.documentElement.requestFullscreen?.();
+  }, { once: true });
+}
+
+function oPSC(e) {
+  if (e.data === YT.PlayerState.PLAYING) {
+    bufferingDelay = performance.now() - startRequestedAt;
+    const animationTimeout = 3300 - (-bufferingDelay.toFixed(2));
+    // const animationTimeout = 4500;
 
     setTimeout(() => {
       bgEl.style.display = 'block';
       bgEl.classList.add('pulse');
-      initialBg.style.display = 'none';
-      startAmbient(16.25);
+      iBg.style.display = 'none';
 
       const carousel = ['image.png'].concat(rImages).concat(cImages);
 
       // 1st slot
-      scheduleFlash(14700, 8800, 1848, shuffleArray(rapImages));
-      scheduleFlash(30000, 924, 924, cImages);
-      scheduleFlash(40000, 1848, 1848, cImages);
+      sF(14700, 8800, 1848, sA(rapImages));
+      sF(30000, 924, 924, cImages);
+      sF(40000, 1848, 1848, cImages);
 
       // 2nd slot
-      scheduleFlash(47500, 29000, 1848, shuffleArray(rapImages));
-      scheduleFlash(80000, 924, 924, cImages);
+      sF(47500, 29000, 1848, sA(rapImages));
+      sF(80000, 924, 924, cImages);
       // kwak kwak
-      scheduleFlash(88500, 924, 924, cImages);
-      scheduleFlash(91500, 1848, 1848, cImages);
+      sF(88500, 924, 924, cImages);
+      sF(91500, 1848, 1848, cImages);
 
       // 3rd slot
-      scheduleFlash(94500, 11088, 924, shuffleArray(rapImages));
-      scheduleFlash(110000, 1848, 1848, cImages);
-      scheduleFlash(120000, 1848, 1848, cImages);
-      scheduleFlash(130000, 924, 924, cImages);
-      scheduleFlash(140000, 1848, 1848, cImages);
+      sF(94500, 11088, 924, sA(rapImages));
+      sF(110000, 1848, 1848, cImages);
+      sF(120000, 1848, 1848, cImages);
+      sF(130000, 924, 924, cImages);
+      sF(140000, 1848, 1848, cImages);
 
       // 4th slot
-      scheduleFlash(157200, 21252, 924, shuffleArray(rapImages));
-      scheduleFlash(190000, 1848, 1848, cImages);
-      scheduleFlash(200000, 17556, 924, carousel);
+      sF(157200, 21252, 924, sA(rapImages));
+      sF(190000, 1848, 1848, cImages);
+      sF(200000, 17556, 924, carousel);
 
       // 5th slot
-      scheduleFlash(218800, 12012, 924, shuffleArray(rapImages));
-      scheduleFlash(230812, 33000, 924, carousel);
-      scheduleFlash(265600, 4620, 4620, rImages);
-      scheduleFlash(280000, 924, 924, cImages);
-      scheduleFlash(283000, 924, 924, cImages);
-      scheduleFlash(286000, 924, 924, cImages);
-      scheduleFlash(289000, 924, 924, cImages);
-      scheduleFlash(292000, 4620, 4620, cImages);
+      sF(218800, 12012, 924, sA(rapImages));
+      sF(230812, 33000, 924, carousel);
+      sF(265600, 4620, 4620, rImages);
+      sF(280000, 924, 924, cImages);
+      sF(283000, 924, 924, cImages);
+      sF(286000, 924, 924, cImages);
+      sF(289000, 924, 924, cImages);
+      sF(292000, 4620, 4620, cImages);
 
       // 6th slot
-      scheduleFlash(300000, 20100, 924);
+      sF(300000, 20100, 924);
 
     }, animationTimeout);
-
-
-  }, { once: true });
-}
-
-function onPlayerStateChange(e) {
-  if (e.data === YT.PlayerState.PLAYING) {
-    const isMuted = player.isMuted();
-    if (isMuted) {
-      audioToggle.style.display = 'block';
-    }
   }
   if (e.data === YT.PlayerState.ENDED) {
     bgEl.style.display = 'none';
-    initialBg.style.display = 'block';
+    iBg.style.display = 'block';
     setTimeout(() => {
-      initialBg.style.filter = 'brightness(6%)';
-      initialBg.src = 'r.png';
+      iBg.style.filter = 'brightness(6%)';
+      iBg.src = 'r.png';
     }, 6200);
     setTimeout(() => {
-      window.location.href = shuffleArray(urls)[0];
-    }, 10200);
+      window.location.href = sA(us)[0];
+    }, 8200);
   }
 }
 
-function startAmbient(bpm) {
+function sAmb(bpm) {
   const canvas = document.createElement('canvas');
   canvas.id = 'ambientCanvas';
   document.body.appendChild(canvas);
@@ -192,7 +184,7 @@ function startAmbient(bpm) {
   const maxAlpha = 60, minAlpha = 10, floorMod = 0.2, maxBlur = 4;
   const startTime = performance.now();
 
-  (function drawNoise() {
+  (function dNo() {
     const t = (performance.now() - startTime) / 1000;
     const raw = (Math.sin(2 * Math.PI * beatFreq * t) + 1) / 2;
     const mod = floorMod + raw * (1 - floorMod);
@@ -208,16 +200,6 @@ function startAmbient(bpm) {
       data[4 * i + 3] = alpha;
     }
     ctx.putImageData(imgData, 0, 0);
-    requestAnimationFrame(drawNoise);
+    requestAnimationFrame(dNo);
   })();
 }
-
-const audioToggle = document.getElementById('audioToggle');
-
-audioToggle.addEventListener('click', () => {
-  if (player.isMuted()) {
-    player.unMute();
-    player.setVolume(100);
-    audioToggle.style.display = 'none';
-  }
-});
