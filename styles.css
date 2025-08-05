@@ -116,19 +116,19 @@ html {
 
     0%,
     100% {
-        transform: scale(1.7) rotateY(0deg);
+        transform: scale(1.5) rotateY(0deg);
     }
 
     25% {
-        transform: scale(2.3) rotate3d(1, 1, 0, -45deg);
+        transform: scale(2.1) rotate3d(1, 1, 0, -45deg);
     }
 
     50% {
-        transform: scale(2.7) rotate(0deg);
+        transform: scale(2.5) rotate(0deg);
     }
 
     75% {
-        transform: scale(2.3) rotate(45deg) rotate3d(1, 1, 0, 45deg);
+        transform: scale(2.1) rotate(45deg) rotate3d(1, 1, 0, 45deg);
     }
 }
 
