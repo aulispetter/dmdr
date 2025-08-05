@@ -1,6 +1,7 @@
 let pl, iBg, bgEl;
 let startRequestedAt;
 let bufferingDelay = 0;
+let started = false;
 
 const rapImages = [
   '1.png', '2.png', '3.png', '4.png',
@@ -89,23 +90,28 @@ function sP(morningHour, morningMinutes, nightHour, nightMinutes) {
 
 function oPr() {
   iBg.style.display = 'block';
-  // sP(6, 59, 19, 0);
   sAmb(16.25);
 
   document.body.addEventListener('click', () => {
+    const sp = sP(6, 59, 17, 0);
+    if (!sp || started) {
+      return;
+    }
+
+    started = true;
     startRequestedAt = performance.now();
     pl.playVideo();
     pl.unMute();
     pl.setVolume(100);
     document.documentElement.requestFullscreen?.();
-  }, { once: true });
+  });
 }
 
 function oPSC(e) {
   if (e.data === YT.PlayerState.PLAYING) {
     bufferingDelay = performance.now() - startRequestedAt;
-    const animationTimeout = 3300 - (-bufferingDelay.toFixed(2));
-    // const animationTimeout = 4500;
+    // const animationTimeout = 3300 - (-bufferingDelay.toFixed(2));
+    const animationTimeout = 4350;
 
     setTimeout(() => {
       bgEl.style.display = 'block';
@@ -116,7 +122,7 @@ function oPSC(e) {
 
       // 1st slot
       sF(14700, 8800, 1848, sA(rapImages));
-      sF(30000, 924, 924, cImages);
+      sF(30000, 1848, 1848, cImages);
       sF(40000, 1848, 1848, cImages);
 
       // 2nd slot
