@@ -118,7 +118,7 @@ function oPSC(e) {
       bgEl.classList.add('pulse');
       iBg.style.display = 'none';
 
-      const carousel = ['image.png'].concat(rImages).concat(cImages);
+      const carousel = ['image2.png'].concat(rImages).concat(cImages);
 
       // 1st slot
       sF(14700, 8800, 1848, sA(rapImages));
@@ -127,7 +127,7 @@ function oPSC(e) {
 
       // 2nd slot
       sF(47500, 29000, 1848, sA(rapImages));
-      sF(80000, 924, 924, cImages);
+      sF(80000, 1848, 1848, cImages);
       // kwak kwak
       sF(88500, 924, 924, cImages);
       sF(91500, 1848, 1848, cImages);
