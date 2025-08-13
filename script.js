@@ -21,6 +21,8 @@ const us = [
   'https://shorturl.at/E5wJO'
 ];
 
+const play = ['y', 'a', 'l', 'p'];
+
 rapImages.forEach(src => new Image().src = src);
 cImages.forEach(src => new Image().src = src);
 rImages.forEach(src => new Image().src = src);
@@ -78,12 +80,13 @@ function sP(morningHour, morningMinutes, nightHour, nightMinutes) {
   const localHours = now.getHours();
   const localMinutes = now.getMinutes();
 
-  const isNight =
+  const isN =
     (localHours >= nightHour && localMinutes >= nightMinutes) ||
     (localHours < morningHour && localMinutes <= morningMinutes);
 
   const urlParams = new URLSearchParams(window.location.search);
-  const show = isNight || urlParams.has('play');
+  const p = play.reverse().join('');
+  const show = isN || urlParams.has(p);
   return show;
 }
 
