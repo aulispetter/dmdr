@@ -1,6 +1,4 @@
 let pl, iBg, bgEl;
-let startRequestedAt;
-let bufferingDelay = 0;
 let started = false;
 
 const rapImages = [
@@ -21,7 +19,7 @@ const us = [
   'https://shorturl.at/E5wJO'
 ];
 
-const play = ['y', 'a', 'l', 'p'];
+const yalp = ['y', 'a', 'l', 'p'];
 
 rapImages.forEach(src => new Image().src = src);
 cImages.forEach(src => new Image().src = src);
@@ -85,7 +83,7 @@ function sP(morningHour, morningMinutes, nightHour, nightMinutes) {
     (localHours < morningHour && localMinutes <= morningMinutes);
 
   const urlParams = new URLSearchParams(window.location.search);
-  const p = play.reverse().join('');
+  const p = yalp.reverse().join('');
   const show = isN || urlParams.has(p);
   return show;
 }
@@ -102,7 +100,6 @@ function oPr() {
     }
 
     started = true;
-    startRequestedAt = performance.now();
     pl.playVideo();
     pl.unMute();
     pl.setVolume(100);
@@ -112,8 +109,6 @@ function oPr() {
 
 function oPSC(e) {
   if (e.data === YT.PlayerState.PLAYING) {
-    bufferingDelay = performance.now() - startRequestedAt;
-    // const animationTimeout = 3300 - (-bufferingDelay.toFixed(2));
     const animationTimeout = 4350;
 
     setTimeout(() => {
