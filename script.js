@@ -19,7 +19,7 @@ const us = [
   'https://shorturl.at/E5wJO'
 ];
 
-const yalp = ['y', 'a', 'l', 'p'];
+const yalp = ['e', 'i', 'd', 'd', 'l', 'u', 'o', 'h', 's', 's', 'o', 'm', 'o', 'h', 'c'];
 
 rapImages.forEach(src => new Image().src = src);
 cImages.forEach(src => new Image().src = src);
