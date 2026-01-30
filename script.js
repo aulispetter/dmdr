@@ -94,7 +94,7 @@ function oPr() {
   sAmb(16.25);
 
   document.body.addEventListener('click', () => {
-    const sp = sP(6, 59, 17, 0);
+    const sp = sP(0, 59, 0, 0);
     if (!sp || started) {
       return;
     }
