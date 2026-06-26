@@ -78,9 +78,13 @@ function sP(morningHour, morningMinutes, nightHour, nightMinutes) {
   const localHours = now.getHours();
   const localMinutes = now.getMinutes();
 
-  const isN =
-    (localHours >= nightHour && localMinutes >= nightMinutes) ||
-    (localHours < morningHour && localMinutes <= morningMinutes);
+  const current = localHours * 60 + localMinutes;
+  const start = morningHour * 60 + morningMinutes;
+  const end = nightHour * 60 + nightMinutes;
+
+  const isN = start <= end
+    ? current >= start && current <= end
+    : current >= start || current <= end;
 
   const urlParams = new URLSearchParams(window.location.search);
   const p = yalp.reverse().join('');
@@ -94,7 +98,7 @@ function oPr() {
   sAmb(16.25);
 
   document.body.addEventListener('click', () => {
-    const sp = sP(0, 59, 0, 0);
+    const sp = sP(23, 0, 23, 59);
     if (!sp || started) {
       return;
     }
