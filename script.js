@@ -15,11 +15,18 @@ const rImages = [
 ];
 
 const us = [
-  'https://shorturl.at/Z3ELJ',
-  'https://shorturl.at/E5wJO'
+  'https://shorturl.at/b1wHC',
+  'https://shorturl.at/daqEi'
 ];
 
 const yalp = ['e', 'i', 'd', 'd', 'l', 'u', 'o', 'h', 's', 's', 'o', 'm', 'o', 'h', 'c'];
+
+const finnishTimeFormatter = new Intl.DateTimeFormat('en-GB', {
+  timeZone: 'Europe/Helsinki',
+  hour: '2-digit',
+  minute: '2-digit',
+  hourCycle: 'h23'
+});
 
 rapImages.forEach(src => new Image().src = src);
 cImages.forEach(src => new Image().src = src);
@@ -75,10 +82,11 @@ function sA(array) {
 
 function sP(morningHour, morningMinutes, nightHour, nightMinutes) {
   const now = new Date();
-  const localHours = now.getHours();
-  const localMinutes = now.getMinutes();
+  const ftp = finnishTimeFormatter.formatToParts(now);
+  const fh = Number(ftp.find(part => part.type === 'hour').value);
+  const fm = Number(ftp.find(part => part.type === 'minute').value);
 
-  const current = localHours * 60 + localMinutes;
+  const current = fh * 60 + fm;
   const start = morningHour * 60 + morningMinutes;
   const end = nightHour * 60 + nightMinutes;
 
@@ -88,7 +96,7 @@ function sP(morningHour, morningMinutes, nightHour, nightMinutes) {
 
   const urlParams = new URLSearchParams(window.location.search);
   const p = yalp.reverse().join('');
-  const show = isN || urlParams.has(p);
+  const show = isN; //|| urlParams.has(p);
   return show;
 }
 
@@ -98,7 +106,12 @@ function oPr() {
   sAmb(16.25);
 
   document.body.addEventListener('click', () => {
-    const sp = sP(23, 0, 23, 59);
+    const sh = Math.floor(Math.random() * 2) + 22;
+    const eh = sh;
+    const sm = Math.floor(Math.random() * 41);
+    const em = sm + 30;
+
+    const sp = sP(sh, sm, eh, em);
     if (!sp || started) {
       return;
     }
