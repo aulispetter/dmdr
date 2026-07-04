@@ -102,18 +102,31 @@ function sP(morningHour, morningMinutes, nightHour, nightMinutes) {
   return show;
 }
 
+function sW(startHour, endHour, durationMinutes) {
+  const dayMinutes = 24 * 60;
+  const rangeStart = startHour * 60;
+  const rangeEnd = endHour * 60;
+  const rangeDuration = (rangeEnd - rangeStart + dayMinutes) % dayMinutes;
+  const offset = Math.floor(Math.random() * (rangeDuration - durationMinutes + 1));
+  const windowStart = (rangeStart + offset) % dayMinutes;
+  const windowEnd = (windowStart + durationMinutes) % dayMinutes;
+
+  return {
+    sh: Math.floor(windowStart / 60),
+    sm: windowStart % 60,
+    eh: Math.floor(windowEnd / 60),
+    em: windowEnd % 60
+  };
+}
+
 
 function oPr() {
   iBg.style.display = 'block';
   sAmb(16.25);
+  const pw = sW(22, 4, 30);
 
   document.body.addEventListener('click', () => {
-    const sh = Math.floor(Math.random() * 2) + 22;
-    const eh = sh;
-    const sm = Math.floor(Math.random() * 41);
-    const em = sm + 30;
-
-    const sp = sP(sh, sm, eh, em);
+    const sp = sP(pw.sh, pw.sm, pw.eh, pw.em);
     if (!sp || started) {
       return;
     }
