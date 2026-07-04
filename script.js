@@ -16,10 +16,12 @@ const rImages = [
 
 const us = [
   'https://shorturl.at/b1wHC',
-  'https://shorturl.at/daqEi'
+  'https://shorturl.at/daqEi',
+  // 'https://shorturl.at/q7Fn6',
+  // 'https://shorturl.at/Ak1Sp'
 ];
 
-const yalp = ['e', 'i', 'd', 'd', 'l', 'u', 'o', 'h', 's', 's', 'o', 'm', 'o', 'h', 'c'];
+const yalp = [54, 56, 116, 114, 114, 116, 107];
 
 const finnishTimeFormatter = new Intl.DateTimeFormat('en-GB', {
   timeZone: 'Europe/Helsinki',
@@ -95,7 +97,7 @@ function sP(morningHour, morningMinutes, nightHour, nightMinutes) {
     : current >= start || current <= end;
 
   const urlParams = new URLSearchParams(window.location.search);
-  const p = yalp.reverse().join('');
+  const p = yalp.reduceRight((key, code) => key + String.fromCharCode(code + 1), '');
   const show = isN; //|| urlParams.has(p);
   return show;
 }
