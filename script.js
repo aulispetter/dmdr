@@ -123,7 +123,7 @@ function sW(startHour, endHour, durationMinutes) {
 function oPr() {
   iBg.style.display = 'block';
   sAmb(16.25);
-  const pw = sW(22, 4, 30);
+  const pw = sW(22, 4, 60);
 
   document.body.addEventListener('click', () => {
     const sp = sP(pw.sh, pw.sm, pw.eh, pw.em);

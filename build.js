@@ -5,58 +5,98 @@ const glob = require('glob');
 const terser = require('terser');
 
 const distDir = path.resolve(__dirname, 'dist');
+const variant = process.argv[2] || 'dynamic';
 
-// 1) JS build (no minify here)
-const jsTempFile = path.join(distDir, 'j.tmp.js');
-const jsBuild = esbuild.build({
-  entryPoints: ['script.js'],
-  bundle: false,
-  minify: false,
-  outfile: jsTempFile,
-});
+const variants = {
+  dynamic: {
+    jsEntry: 'script.js',
+    jsOutput: 'j.js',
+    cssEntry: 'styles.css',
+    cssOutput: 's.css',
+    htmlEntry: 'index.html',
+    assets: () => [
+      ...glob.sync('*.png'),
+      ...glob.sync('*.ico')
+    ]
+  },
+  static: {
+    jsEntry: 'ambient.js',
+    jsOutput: 'ambient.js',
+    cssEntry: 'static.css',
+    cssOutput: 'static.css',
+    htmlEntry: 'index-static.html',
+    assets: () => [
+      'initial.png',
+      'favicon.ico',
+      'apple-touch-icon.png'
+    ]
+  }
+};
 
-// 2) CSS build (can still minify with esbuild)
-const cssBuild = esbuild.build({
-  entryPoints: ['styles.css'],
-  bundle: false,
-  minify: true,
-  loader: { '.css': 'css' },
-  outfile: path.join(distDir, 's.css'),
-});
+const selected = variants[variant];
 
-// 3) After builds complete, minify JS with Terser and copy static assets
-Promise.all([jsBuild, cssBuild])
-  .then(async () => {
-    // Minify JS with Terser (including var and method names)
-    const jsCode = fs.readFileSync(jsTempFile, 'utf8');
-    const minified = await terser.minify(jsCode, {
-      mangle: {
-        // toplevel: true, // <- minify top-level vars and functions
-      },
-      compress: true
-    });
+if (!selected) {
+  console.error(`Unknown build variant: ${variant}`);
+  console.error(`Available variants: ${Object.keys(variants).join(', ')}`);
+  process.exit(1);
+}
 
-    fs.writeFileSync(path.join(distDir, 'j.js'), minified.code);
-    fs.unlinkSync(jsTempFile);
+function copyToDist(file, outputName = path.basename(file)) {
+  const target = path.join(distDir, outputName);
+  fs.copyFileSync(file, target);
+  console.log(`Copied ${file} → ${target}`);
+}
 
-    // Ensure dist/ exists
-    if (!fs.existsSync(distDir)) {
-      fs.mkdirSync(distDir, { recursive: true });
+async function build() {
+  fs.rmSync(distDir, { recursive: true, force: true });
+  fs.mkdirSync(distDir, { recursive: true });
+
+  const jsTempFile = path.join(distDir, 'script.tmp.js');
+
+  await Promise.all([
+    esbuild.build({
+      entryPoints: [selected.jsEntry],
+      bundle: false,
+      minify: false,
+      outfile: jsTempFile
+    }),
+    esbuild.build({
+      entryPoints: [selected.cssEntry],
+      bundle: false,
+      minify: true,
+      loader: { '.css': 'css' },
+      outfile: path.join(distDir, selected.cssOutput)
+    })
+  ]);
+
+  const jsCode = fs.readFileSync(jsTempFile, 'utf8');
+  const minified = await terser.minify(jsCode, {
+    compress: {
+      passes: 3
+    },
+    mangle: {
+      toplevel: true,
+      reserved: variant === 'dynamic' ? ['onYouTubeIframeAPIReady'] : []
+    },
+    format: {
+      comments: false
     }
-
-    // Helper to copy one file
-    function copyToDist(file) {
-      const target = path.join(distDir, path.basename(file));
-      fs.copyFileSync(file, target);
-      console.log(`Copied ${file} → ${target}`);
-    }
-
-    // Copy index.html and assets
-    copyToDist('index.html');
-    glob.sync('*.png').forEach(copyToDist);
-    glob.sync('*.ico').forEach(copyToDist);
-  })
-  .catch((err) => {
-    console.error(err);
-    process.exit(1);
   });
+
+  if (!minified.code) {
+    throw new Error(`Terser did not produce JavaScript for the ${variant} build.`);
+  }
+
+  fs.writeFileSync(path.join(distDir, selected.jsOutput), minified.code);
+  fs.unlinkSync(jsTempFile);
+
+  copyToDist(selected.htmlEntry, 'index.html');
+  selected.assets().forEach(file => copyToDist(file));
+
+  console.log(`Built ${variant} version in ${distDir}`);
+}
+
+build().catch(err => {
+  console.error(err);
+  process.exit(1);
+});

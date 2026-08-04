@@ -5,8 +5,12 @@
   "main": "j.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "node build.js",
-    "deploy": "npm run build && gh-pages -d dist --cname eliasperttu.com"
+    "build": "npm run build:dynamic",
+    "build:dynamic": "node build.js dynamic",
+    "build:static": "node build.js static",
+    "deploy": "npm run deploy:dynamic",
+    "deploy:dynamic": "npm run build:dynamic && gh-pages -d dist --cname eliasperttu.com",
+    "deploy:static": "npm run build:static && gh-pages -d dist --cname eliasperttu.com"
   },
   "keywords": [],
   "author": "",
