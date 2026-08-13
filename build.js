@@ -21,9 +21,9 @@ const variants = {
   },
   static: {
     jsEntry: 'ambient.js',
-    jsOutput: 'ambient.js',
+    jsOutput: 'j.js',
     cssEntry: 'static.css',
-    cssOutput: 'static.css',
+    cssOutput: 's.css',
     htmlEntry: 'index-static.html',
     assets: () => [
       'initial.png',
