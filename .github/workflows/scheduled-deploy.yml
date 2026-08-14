@@ -1,0 +1,40 @@
+name: Scheduled deployments
+
+on:
+  schedule:
+    - cron: '0 18 * * 5' # Friday at 18:00
+      timezone: Europe/Helsinki
+    - cron: '0 4 * * 1' # Monday at 04:00
+      timezone: Europe/Helsinki
+
+permissions:
+  contents: write
+
+concurrency:
+  group: github-pages-deployment
+  cancel-in-progress: false
+
+jobs:
+  deploy-dynamic:
+    if: ${{ github.event.schedule == '0 18 * * 5' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - run: npm run deploy:dynamic
+
+  deploy-static:
+    if: ${{ github.event.schedule == '0 4 * * 1' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - run: npm run deploy:static
