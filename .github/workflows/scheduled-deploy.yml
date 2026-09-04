@@ -2,9 +2,9 @@ name: Scheduled deployments
 
 on:
   schedule:
-    - cron: '0 18 * * 5' # Friday at 18:00
+    - cron: '17 19 * * 5' # Friday at 19:17
       timezone: Europe/Helsinki
-    - cron: '0 4 * * 1' # Monday at 04:00
+    - cron: '17 4 * * 1' # Monday at 04:17
       timezone: Europe/Helsinki
 
 permissions:
@@ -16,7 +16,7 @@ concurrency:
 
 jobs:
   deploy-dynamic:
-    if: ${{ github.event.schedule == '0 18 * * 5' }}
+    if: ${{ github.event.schedule == '17 19 * * 5' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
@@ -33,7 +33,7 @@ jobs:
           npm run deploy:dynamic -- -u "github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>"
 
   deploy-static:
-    if: ${{ github.event.schedule == '0 4 * * 1' }}
+    if: ${{ github.event.schedule == '17 4 * * 1' }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
